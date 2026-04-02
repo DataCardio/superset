@@ -21,6 +21,14 @@ set -euo pipefail
 REQUIRES_BUILD_ESSENTIAL=false
 USE_CACHE=true
 
+# PyPI mirrors (fallback order)
+PYPI_MIRRORS=(
+    "https://pypi.org/simple"
+    "https://mirror.yandex.ru/pypi/web/simple/"
+    "https://mirrors.aliyun.com/pypi/simple/"
+    "https://pypi.tuna.tsinghua.edu.cn/simple/"
+)
+
 # Filter arguments
 ARGS=()
 for arg in "$@"; do
@@ -37,6 +45,29 @@ for arg in "$@"; do
   esac
 done
 
+# Function to install with mirror fallback
+install_with_fallback() {
+    local cache_flag=""
+    if ! ${USE_CACHE}; then
+        cache_flag="--no-cache-dir"
+    fi
+    
+    echo "Attempting to install Python packages..."
+    
+    # Try each mirror in order
+    for mirror in "${PYPI_MIRRORS[@]}"; do
+        echo "Trying mirror: ${mirror}"
+        if uv pip install ${cache_flag} --index-url "${mirror}" "${ARGS[@]}"; then
+            echo "Successfully installed using mirror: ${mirror}"
+            return 0
+        fi
+        echo "Failed with mirror: ${mirror}, trying next..."
+    done
+    
+    echo "ERROR: All PyPI mirrors failed!"
+    return 1
+}
+
 # Install build-essential if required
 if ${REQUIRES_BUILD_ESSENTIAL}; then
   echo "Installing build-essential for package builds..."
@@ -44,14 +75,8 @@ if ${REQUIRES_BUILD_ESSENTIAL}; then
     && apt-get install -yqq --no-install-recommends build-essential
 fi
 
-# Choose whether to use pip cache
-if ${USE_CACHE}; then
-  echo "Using pip cache..."
-  uv pip install "${ARGS[@]}"
-else
-  echo "Disabling pip cache..."
-  uv pip install --no-cache-dir "${ARGS[@]}"
-fi
+# Install Python packages with mirror fallback
+install_with_fallback
 
 # Remove build-essential if it was installed
 if ${REQUIRES_BUILD_ESSENTIAL}; then

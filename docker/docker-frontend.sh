@@ -17,27 +17,78 @@
 #
 set -e
 
-# Packages needed for puppeteer:
+# ============================================
+# NPM Registry Mirrors (fallback order)
+# ============================================
+NPM_MIRRORS=(
+    "https://registry.npmjs.org"
+    "https://registry.npmmirror.com"
+    "https://mirrors.cloud.tencent.com/npm/"
+    "https://mirrors.ustc.edu.cn/npm/"
+    "https://mirrors.tuna.tsinghua.edu.cn/npm/"
+)
+
+# Function: Try npm command with mirror fallback
+npm_with_fallback() {
+    local cmd="$1"
+    shift
+    local args="$@"
+    
+    echo "Attempting npm ${cmd}..."
+    
+    for mirror in "${NPM_MIRRORS[@]}"; do
+        echo "Trying npm mirror: ${mirror}"
+        if npm --registry "${mirror}" --prefer-offline --no-fund --no-audit ${cmd} ${args} 2>/dev/null; then
+            echo "✓ Success with mirror: ${mirror}"
+            return 0
+        fi
+        echo "✗ Failed with mirror: ${mirror}, trying next..."
+    done
+    
+    echo "ERROR: All npm mirrors failed!"
+    return 1
+}
+
+# Function: Configure npm mirror globally
+configure_npm_mirror() {
+    local mirror="$1"
+    npm config set registry "${mirror}"
+    echo "NPM registry set to: ${mirror}"
+}
+
+# ============================================
+# Puppeteer Dependencies
+# ============================================
 if [ "$PUPPETEER_SKIP_CHROMIUM_DOWNLOAD" = "false" ]; then
-    apt update
-    apt install -y chromium
+    echo "Installing Chromium dependencies for Puppeteer..."
+    apt update -qq
+    apt install -y -qq --no-install-recommends chromium
 fi
 
+# ============================================
+# Superset Frontend Build
+# ============================================
 if [ "$BUILD_SUPERSET_FRONTEND_IN_DOCKER" = "true" ]; then
     echo "Building Superset frontend in dev mode inside docker container"
     cd /app/superset-frontend
 
+    # Optional: Use environment variable to force specific npm mirror
+    if [ -n "$NPM_REGISTRY" ]; then
+        echo "Using forced NPM registry: $NPM_REGISTRY"
+        configure_npm_mirror "$NPM_REGISTRY"
+    fi
+
     if [ "$NPM_RUN_PRUNE" = "true" ]; then
         echo "Running \"npm run prune\""
-        npm run prune
+        npm_with_fallback "run" "prune"
     fi
 
     echo "Running \"npm install\""
-    npm install
+    npm_with_fallback "install" ""
 
     echo "Start webpack dev server"
-    # start the webpack dev server, serving dynamically at http://localhost:9000
-    # it proxies to the backend served at http://localhost:8088
+    # Start the webpack dev server, serving dynamically at http://localhost:9000
+    # It proxies to the backend served at http://localhost:8088
     npm run dev-server
 
 else

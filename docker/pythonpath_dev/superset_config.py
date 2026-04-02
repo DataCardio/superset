@@ -105,7 +105,16 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True, "DATASET_FOLDERS": True}
+FEATURE_FLAGS = {"ALERT_REPORTS": True,
+                 "ENABLE_TEMPLATE_PROCESSING": True,
+                 "HTML_SANITIZATION": True
+                 }
+HTML_SANITIZATION_SCHEMA_EXTENSIONS = {
+    "attributes": {
+        "*": ["style", "className"],
+    },
+    "tagNames": ["style"],
+}
 ALERT_REPORTS_NOTIFICATION_DRY_RUN = True
 WEBDRIVER_BASEURL = f"http://superset_app{os.environ.get('SUPERSET_APP_ROOT', '/')}/"  # When using docker compose baseurl should be http://superset_nginx{ENV{BASEPATH}}/  # noqa: E501
 # The base URL for the email report hyperlinks.
@@ -113,9 +122,17 @@ WEBDRIVER_BASEURL_USER_FRIENDLY = (
     f"http://localhost:8888/{os.environ.get('SUPERSET_APP_ROOT', '/')}/"
 )
 SQLLAB_CTAS_NO_LIMIT = True
+LANGUAGES = {
+    "en": {"flag": "us", "name": "English"},
+    "ru": {"flag": "ru", "name": "Russian"}
+} 
+
 
 log_level_text = os.getenv("SUPERSET_LOG_LEVEL", "INFO")
 LOG_LEVEL = getattr(logging, log_level_text.upper(), logging.INFO)
+
+from statsd_logger import StastDEventLogger
+EVENT_LOGGER = StastDEventLogger
 
 if os.getenv("CYPRESS_CONFIG") == "true":
     # When running the service as a cypress backend, we need to import the config
@@ -138,7 +155,81 @@ try:
     from superset_config_docker import *  # noqa: F403
 
     logger.info(
-        "Loaded your Docker configuration at [%s]", superset_config_docker.__file__
+        f"Loaded your Docker configuration at [{superset_config_docker.__file__}]"
     )
 except ImportError:
     logger.info("Using default Docker config...")
+
+"""
+from flask_appbuilder.security.views import expose
+from superset.security import SupersetSecurityManager
+from flask_appbuilder.security.manager import BaseSecurityManager
+from flask_appbuilder.security.manager import AUTH_REMOTE_USER
+from flask import  redirect, request, flash
+from flask_login import login_user
+
+import json
+from typing import Any, Dict
+
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+
+class CustomSsoSecurityManager(SupersetSecurityManager):
+    def get_oauth_user_info(
+        self, provider: str, resp: Dict[str, Any]
+    ) -> Dict[str, Any]:
+
+        # for Keycloak
+        if provider in ["keycloak"]:
+            log.debug("Keycloak response: %s", resp)
+
+            if 'userinfo' in resp and 'realm_access' in resp['userinfo']:
+                data = resp['userinfo']
+            else:
+                data = self.appbuilder.sm.oauth_remotes[provider].userinfo()
+
+            roles_expected = self.appbuilder.get_app.config["AUTH_ROLES_MAPPING"]
+            log.warning(data)
+            roles_retrieved = 'roles' in data or ('realm_access' in data and 'roles' in data['realm_access'])
+            if roles_expected and not roles_retrieved:
+                log.warning('The roles claim was not added to the id_token or to the userinfo by Keycloak. '
+                            'Configure the Realm Roles token mapper to add the roles claim to either the id_token '
+                            'or to the userinfo (or both) if you want to map Keycloak roles to Superset roles.')
+
+            log.debug("User info from Keycloak: %s", data)
+
+            roles = set()
+            if roles_expected and roles_retrieved:
+                roles.update(data.get('roles', []))
+
+                if ('realm_access' in data):
+                    roles.update(data['realm_access'].get('roles', []))
+
+                log.debug("Roles from Keycloak: %s", roles)
+
+            return {
+                "username": data.get("preferred_username", ""),
+                "first_name": data.get("given_name", ""),
+                "last_name": data.get("family_name", ""),
+                "email": data.get("email", ""),
+                "role_keys": roles,
+            }
+        else:
+            super(CustomSsoSecurityManager, self).get_oauth_user_info(provider, resp)
+
+import Superset_security_manager
+
+
+# Create a custom Security manager that overrides the CustomAuthUserView
+class CustomSecurityManager(SupersetSecurityManager):
+    authremoteuserview = Superset_security_manager.CustomAuthUserView
+
+
+CUSTOM_SECURITY_MANAGER = CustomSecurityManager #For 1FA
+#CUSTOM_SECURITY_MANAGER = CustomSsoSecurityManager #For SSO
+
+# User remote authentication
+AUTH_TYPE = AUTH_REMOTE_USER #For 1FA
+#AUTH_TYPE = AUTH_OAUTH #For SSO
+"""
