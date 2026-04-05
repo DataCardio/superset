@@ -12,11 +12,9 @@ from superset.utils.log import AbstractEventLogger
 from superset.utils.core import get_user_id, LoggerLevel, to_int
 
 from superset.stats_logger import StatsdStatsLogger
-from Superset_security_manager import db_connector
+from Superset_security_manager import DBConnector
 
 s_logger = StatsdStatsLogger(host='host.docker.internal', port=8125, prefix='superset')
-s_logger_url = StatsdStatsLogger(host='host.docker.internal', port=8125, prefix='superset')
-s_logger_db = StatsdStatsLogger(host='host.docker.internal', port=8125, prefix='superset')
 
 class StastDEventLogger(AbstractEventLogger):
     """Event logger that commits logs to StatsD with background healthchecks."""
@@ -81,8 +79,8 @@ class StastDEventLogger(AbstractEventLogger):
 
     def healthcheck(self): # В данный момент отключено
         def db_healthcheck(dbname: str = "depot_db", host: str = "192.168.1.56", user: str = "postgres", password: str = "admin", port: str = "5432"): # Данные для подключения к второй базе
-            #db = db_connector()
-            #db.close_connection()
+            db = DBConnector()
+            db.close_connection()
             while True:
                 try:
                     db.connect()

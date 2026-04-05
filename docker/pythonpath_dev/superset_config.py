@@ -160,20 +160,16 @@ try:
 except ImportError:
     logger.info("Using default Docker config...")
 
+MAPBOX_API_KEY = os.getenv("MAPBOX_API_KEY")
 
 from superset.security import SupersetSecurityManager
+from flask_appbuilder.security.manager import BaseSecurityManager
 from flask_appbuilder.security.manager import AUTH_REMOTE_USER
-
-
 import Superset_security_manager
-
-
+# Create a custom Security manager that overrides the CustomAuthUserView
 class CustomSecurityManager(SupersetSecurityManager):
     authremoteuserview = Superset_security_manager.CustomAuthUserView
 
-
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager #For 1FA
 
-# User remote authentication
 AUTH_TYPE = AUTH_REMOTE_USER #For 1FA
-
