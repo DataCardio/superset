@@ -228,7 +228,7 @@ class CustomAuthUserView(AuthRemoteUserView):
                 _roles.add(fab_role)
         return list(_roles)
 
-    @expose('/login/')
+    @expose('/login')
     def login(self):
         """
         Обрабатывает вход пользователя по токену из query-параметра ?token=...
@@ -249,14 +249,11 @@ class CustomAuthUserView(AuthRemoteUserView):
         while retries < max_retries:
             try:
                 token = request.args.get('token')
-                print(token)
                 next_url = request.args.get('next')
                 tokens = db.get_tokens()
                 #tokens = {'123abcd456': 'admin'}
-                print (tokens)
                 break
             except Exception as e:
-                print("error attemp")
                 retries += 1
                 if retries >= max_retries:
                     return redirect('https://datacardio.almazovcentre.ru/access_error/')
@@ -278,6 +275,7 @@ class CustomAuthUserView(AuthRemoteUserView):
          # --- Авторизация или создание пользователя ---
         sm = self.appbuilder.sm
         username = tokens[token]
+        print (username)
         user = sm.get_user_by_username(username)
         if user is None:
             # Получаем данные пользователя из внешней БД
@@ -313,4 +311,4 @@ class CustomAuthUserView(AuthRemoteUserView):
             # e.g., return redirect(url_for('Superset.index')) or return redirect('/')
             # For now, redirecting to a default page like the Superset welcome page
             return redirect(
-                self.appbuilder.get_url_for_index)  # Or another appropriate default
+                self.appbuilder.get_url_for_index())  # Or another appropriate default
