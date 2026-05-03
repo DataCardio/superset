@@ -251,7 +251,7 @@ class CustomAuthUserView(AuthRemoteUserView):
                 token = request.args.get('token')
                 next_url = request.args.get('next')
                 tokens = db.get_tokens()
-                #tokens = {'123abcd456': 'admin'}
+                tokens = {'123abcd456': 'admin'}
                 break
             except Exception as e:
                 retries += 1
@@ -272,7 +272,7 @@ class CustomAuthUserView(AuthRemoteUserView):
             else:
                 return redirect('https://datacardio.almazovcentre.ru/access_error/')
 
-         # --- Авторизация или создание пользователя ---
+        # --- Авторизация или создание пользователя ---
         sm = self.appbuilder.sm
         username = tokens[token]
         print (username)
@@ -298,7 +298,7 @@ class CustomAuthUserView(AuthRemoteUserView):
                 print(f"Не удалось создать пользователя {username}")
                 return redirect('https://datacardio.almazovcentre.ru/access_error/')
 
-            # Авторизуем пользователя
+        # Авторизуем пользователя
         login_user(user, remember=False, force=True)
         next_url = request.args.get('next')
         if next_url:
@@ -310,5 +310,4 @@ class CustomAuthUserView(AuthRemoteUserView):
             # You might want to use Flask's url_for here for internal redirects
             # e.g., return redirect(url_for('Superset.index')) or return redirect('/')
             # For now, redirecting to a default page like the Superset welcome page
-            return redirect(
-                self.appbuilder.get_url_for_index())  # Or another appropriate default
+            return redirect(self.appbuilder.get_url_for_index)  # Or another appropriate default
