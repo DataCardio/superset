@@ -485,4 +485,5 @@ xlsxwriter==3.0.9
     #   pandas
 zstandard==0.23.0
     # via flask-compress
-psycopg2==2.9.12
+psycopg2-binary==2.9.12
+statsd==4.0.1
