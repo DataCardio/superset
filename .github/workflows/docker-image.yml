@@ -1,9 +1,6 @@
 name: Publish Superset Docker to GHCR
 
 on:
-  push:
-    branches: [ main, master ]
-    tags: [ 'v*' ]
   workflow_dispatch:
 
 env:
