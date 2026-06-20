@@ -34,6 +34,8 @@ x-common-build: &common-build
   target: dev
   cache_from:
     - apache/superset-cache:3.10-slim-trixie
+  args:
+    BUILD_TRANSLATIONS: true
 
 services:
   redis:
@@ -62,8 +64,7 @@ services:
         required: true
       - path: docker/.env-local # optional override
         required: false
-    build:
-      <<: *common-build
+    image: ghcr.io/datacardio/superset:sha-1ca4e5a
     container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app-gunicorn"]
     user: "root"
@@ -77,8 +78,7 @@ services:
 
   superset-init:
     container_name: superset_init
-    build:
-      <<: *common-build
+    image: ghcr.io/datacardio/superset:sha-1ca4e5a
     command: ["/app/docker/docker-init.sh"]
     env_file:
       - path: docker/.env # default
@@ -96,8 +96,7 @@ services:
       disable: true
 
   superset-worker:
-    build:
-      <<: *common-build
+    image: ghcr.io/datacardio/superset:sha-1ca4e5a
     container_name: superset_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file:
@@ -119,8 +118,7 @@ services:
         ]
 
   superset-worker-beat:
-    build:
-      <<: *common-build
+    image: ghcr.io/datacardio/superset:sha-1ca4e5a
     container_name: superset_worker_beat
     command: ["/app/docker/docker-bootstrap.sh", "beat"]
     env_file:
