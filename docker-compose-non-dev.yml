@@ -51,7 +51,7 @@ services:
         required: true
       - path: docker/.env-local # optional override
         required: false
-    image: postgres:17
+    image: postgres:15
     container_name: superset_db
     restart: unless-stopped
     volumes:
@@ -64,7 +64,7 @@ services:
         required: true
       - path: docker/.env-local # optional override
         required: false
-    image: ghcr.io/datacardio/superset:sha-1ca4e5a
+    image: ghcr.io/datacardio/superset:latest
     container_name: superset_app
     command: ["/app/docker/docker-bootstrap.sh", "app-gunicorn"]
     user: "root"
@@ -78,7 +78,7 @@ services:
 
   superset-init:
     container_name: superset_init
-    image: ghcr.io/datacardio/superset:sha-1ca4e5a
+    image: ghcr.io/datacardio/superset:latest
     command: ["/app/docker/docker-init.sh"]
     env_file:
       - path: docker/.env # default
@@ -96,7 +96,7 @@ services:
       disable: true
 
   superset-worker:
-    image: ghcr.io/datacardio/superset:sha-1ca4e5a
+    image: ghcr.io/datacardio/superset:latest
     container_name: superset_worker
     command: ["/app/docker/docker-bootstrap.sh", "worker"]
     env_file:
@@ -118,7 +118,7 @@ services:
         ]
 
   superset-worker-beat:
-    image: ghcr.io/datacardio/superset:sha-1ca4e5a
+    image: ghcr.io/datacardio/superset:latest
     container_name: superset_worker_beat
     command: ["/app/docker/docker-bootstrap.sh", "beat"]
     env_file:
