@@ -107,7 +107,8 @@ CELERY_CONFIG = CeleryConfig
 
 FEATURE_FLAGS = {"ALERT_REPORTS": True,
                  "ENABLE_TEMPLATE_PROCESSING": True,
-                 "HTML_SANITIZATION": True
+                 "HTML_SANITIZATION": True,
+                 "DASHBOARD_RBAC": True
                  }
 HTML_SANITIZATION_SCHEMA_EXTENSIONS = {
     "attributes": {
