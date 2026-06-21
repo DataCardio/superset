@@ -7,7 +7,7 @@ from flask import Flask, redirect, request, flash
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_appbuilder.security.views import expose
-from superset.security import SupersetSecurityManager
+from superset.security.manager import SupersetSecurityManager
 from flask_appbuilder.security.manager import BaseSecurityManager
 from flask_appbuilder.security.manager import AUTH_REMOTE_USER
 from flask_login import login_user
