@@ -12,7 +12,7 @@ from superset.utils.log import AbstractEventLogger
 from superset.utils.core import get_user_id, LoggerLevel, to_int
 
 from superset.stats_logger import StatsdStatsLogger
-from Superset_security_manager import DBConnector
+from superset_security_manager import DBConnector
 
 s_logger = StatsdStatsLogger(host='host.docker.internal', port=8125, prefix='superset')
 
