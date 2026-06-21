@@ -168,7 +168,7 @@ from flask_appbuilder.security.manager import AUTH_REMOTE_USER
 import superset_security_manager
 # Create a custom Security manager that overrides the CustomAuthUserView
 class CustomSecurityManager(SupersetSecurityManager):
-    authremoteuserview = Superset_security_manager.CustomAuthUserView
+    authremoteuserview = superset_security_manager.CustomAuthUserView
 
 CUSTOM_SECURITY_MANAGER = CustomSecurityManager #For 1FA
 
