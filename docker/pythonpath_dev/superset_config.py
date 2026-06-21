@@ -162,7 +162,7 @@ except ImportError:
 
 MAPBOX_API_KEY = os.getenv("MAPBOX_API_KEY")
 
-from superset.security import SupersetSecurityManager
+from superset.security.manager import SupersetSecurityManager
 from flask_appbuilder.security.manager import BaseSecurityManager
 from flask_appbuilder.security.manager import AUTH_REMOTE_USER
 import superset_security_manager
