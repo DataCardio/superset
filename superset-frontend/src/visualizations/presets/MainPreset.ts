@@ -22,7 +22,7 @@ import {
   Preset,
   VizType,
 } from '@superset-ui/core';
-import BigNumberTrendlineCustomPlugin from '@superset-ui/plugin-chart-big-number-custom' //Кастомный чарт Арины
+import BigNumberTrendlineCustomPlugin from '@superset-ui/plugin-chart-big-number-custom'; //Кастомный чарт Арины
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
 import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
 import CountryMapChartPlugin from '@superset-ui/legacy-plugin-chart-country-map';
