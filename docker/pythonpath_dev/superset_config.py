@@ -105,11 +105,17 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True,
-                 "ENABLE_TEMPLATE_PROCESSING": True,
-                 "HTML_SANITIZATION": True,
-                 "DASHBOARD_RBAC": True
-                 }
+SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = 256000
+
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": True,
+    "DASHBOARD_RBAC": True,
+    "HORIZONTAL_FILTER_BAR": True,
+    "ESCAPE_MARKDOWN_HTML": False,
+    "HTML_SANITIZATION": True,
+    "ENABLE_TEMPLATE_PROCESSING": True
+}
+
 HTML_SANITIZATION_SCHEMA_EXTENSIONS = {
     "attributes": {
         "*": ["style", "className"],
