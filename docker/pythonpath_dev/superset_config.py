@@ -132,8 +132,8 @@ LANGUAGES = {
 log_level_text = os.getenv("SUPERSET_LOG_LEVEL", "INFO")
 LOG_LEVEL = getattr(logging, log_level_text.upper(), logging.INFO)
 
-from statsd_logger import StastDEventLogger
-EVENT_LOGGER = StastDEventLogger
+#from statsd_logger import StastDEventLogger
+#EVENT_LOGGER = StastDEventLogger
 
 if os.getenv("CYPRESS_CONFIG") == "true":
     # When running the service as a cypress backend, we need to import the config
