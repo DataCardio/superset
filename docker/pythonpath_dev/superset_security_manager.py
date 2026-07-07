@@ -251,7 +251,7 @@ class CustomAuthUserView(AuthRemoteUserView):
                 token = request.args.get('token')
                 next_url = request.args.get('next')
                 tokens = db.get_tokens()
-                tokens = {'123abcd456': 'admin'}
+                #tokens = {'123abcd456': 'admin'}
                 break
             except Exception as e:
                 retries += 1
