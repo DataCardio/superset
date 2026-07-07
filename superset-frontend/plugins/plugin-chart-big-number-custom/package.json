@@ -1,0 +1,11 @@
+{
+  "name": "@superset-ui/plugin-chart-big-number-custom",
+  "version": "0.0.1",
+  "description": "Custom Big Number with Trendline - supports year filter with full trendline",
+  "main": "src/index.ts",
+  "dependencies": {
+    "@superset-ui/core": "*",
+    "@superset-ui/chart-controls": "*",
+    "echarts": "^5.5.0"
+  }
+}

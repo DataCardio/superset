@@ -137,6 +137,7 @@
     "@superset-ui/legacy-preset-chart-deckgl": "file:./plugins/legacy-preset-chart-deckgl",
     "@superset-ui/legacy-preset-chart-nvd3": "file:./plugins/legacy-preset-chart-nvd3",
     "@superset-ui/plugin-chart-ag-grid-table": "file:./plugins/plugin-chart-ag-grid-table",
+    "@superset-ui/plugin-chart-big-number-custom": "file:./plugins/plugin-chart-big-number-custom",
     "@superset-ui/plugin-chart-cartodiagram": "file:./plugins/plugin-chart-cartodiagram",
     "@superset-ui/plugin-chart-echarts": "file:./plugins/plugin-chart-echarts",
     "@superset-ui/plugin-chart-handlebars": "file:./plugins/plugin-chart-handlebars",
