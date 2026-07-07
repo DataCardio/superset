@@ -105,11 +105,17 @@ class CeleryConfig:
 
 CELERY_CONFIG = CeleryConfig
 
-FEATURE_FLAGS = {"ALERT_REPORTS": True,
-                 "ENABLE_TEMPLATE_PROCESSING": True,
-                 "HTML_SANITIZATION": True,
-                 "DASHBOARD_RBAC": True
-                 }
+SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = 256000
+
+FEATURE_FLAGS = {
+    "ALERT_REPORTS": True,
+    "DASHBOARD_RBAC": True,
+    "HORIZONTAL_FILTER_BAR": True,
+    "ESCAPE_MARKDOWN_HTML": False,
+    "HTML_SANITIZATION": True,
+    "ENABLE_TEMPLATE_PROCESSING": True
+}
+
 HTML_SANITIZATION_SCHEMA_EXTENSIONS = {
     "attributes": {
         "*": ["style", "className"],
@@ -132,8 +138,8 @@ LANGUAGES = {
 log_level_text = os.getenv("SUPERSET_LOG_LEVEL", "INFO")
 LOG_LEVEL = getattr(logging, log_level_text.upper(), logging.INFO)
 
-from statsd_logger import StastDEventLogger
-EVENT_LOGGER = StastDEventLogger
+#from statsd_logger import StastDEventLogger
+#EVENT_LOGGER = StastDEventLogger
 
 if os.getenv("CYPRESS_CONFIG") == "true":
     # When running the service as a cypress backend, we need to import the config
