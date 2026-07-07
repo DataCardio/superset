@@ -4,8 +4,15 @@
   "description": "Custom Big Number with Trendline - supports year filter with full trendline",
   "main": "src/index.ts",
   "dependencies": {
+    "@superset-ui/translation": "*",
+    "styled-components": "^5.3.0",
+    "@emotion/styled": "^11.11.0",
+    "@emotion/react": "^11.11.0"
+  },
+  "peerDependencies": {
     "@superset-ui/core": "*",
     "@superset-ui/chart-controls": "*",
-    "echarts": "^5.5.0"
+    "react": "*",
+    "react-dom": "*"
   }
 }
