@@ -209,6 +209,7 @@ const SliceHeaderControls = (
 
   const requestChartFullscreen = () => {
     const chartHolder = props.chartHolderRef?.current;
+    console.log('DEBUG REF:', props.chartHolderRef?.current);
 
     if (!chartHolder?.requestFullscreen) {
       props.addDangerToast(t('Fullscreen is not supported in this browser.'));
