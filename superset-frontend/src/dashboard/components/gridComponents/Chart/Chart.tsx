@@ -96,6 +96,7 @@ interface ChartProps {
   extraControls?: JsonObject;
   isInView?: boolean;
   cacheBusterProp?: string | number;
+  chartHolderRef?: React.RefObject<HTMLDivElement>;
 }
 
 const RESIZE_TIMEOUT = 500;
@@ -688,6 +689,7 @@ const Chart = (props: ChartProps) => {
         addDangerToast={boundActionCreators.addDangerToast}
         handleToggleFullSize={props.handleToggleFullSize}
         isFullSize={props.isFullSize}
+        chartHolderRef={props.chartHolderRef}
         chartStatus={chartStatus || ''}
         formData={
           formData as unknown as import('@superset-ui/core').QueryFormData
