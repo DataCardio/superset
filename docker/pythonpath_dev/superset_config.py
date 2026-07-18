@@ -108,6 +108,14 @@ CELERY_CONFIG = CeleryConfig
 SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = 256000
 
 WEBDRIVER_TYPE = "chrome"
+WEBDRIVER_OPTION_ARGS = [
+    "--force-device-scale-factor=1",  # Отключает масштабирование устройства
+    "--window-size=1920,1080",        # Фиксирует размер окна рендеринга
+    "--no-sandbox",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",        # Важно для Docker, предотвращает падение Chrome
+    "--hide-scrollbars"               # Убирает полосы прокрутки на скриншоте
+]
 
 FEATURE_FLAGS = {
     "ALERT_REPORTS": True,
