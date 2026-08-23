@@ -107,7 +107,14 @@ CELERY_CONFIG = CeleryConfig
 
 SUPERSET_DASHBOARD_POSITION_DATA_LIMIT = 256000
 
-WEBDRIVER_TYPE = "chrome"
+WEBDRIVER_OPTION_ARGS = [
+    "--force-device-scale-factor=1",
+    "--window-size=1920,1080",
+    "--no-sandbox",
+    "--disable-gpu",
+    "--disable-dev-shm-usage",
+    "--hide-scrollbars"
+]
 
 FEATURE_FLAGS = {
     "ALERT_REPORTS": True,
@@ -116,8 +123,6 @@ FEATURE_FLAGS = {
     "ESCAPE_MARKDOWN_HTML": False,
     "HTML_SANITIZATION": True,
     "ENABLE_TEMPLATE_PROCESSING": True,
-    "ENABLE_DASHBOARD_SCREENSHOT_ENDPOINTS": True,
-    "ENABLE_DASHBOARD_DOWNLOAD_WEBDRIVER_SCREENSHOT": True,
 }
 
 HTML_SANITIZATION_SCHEMA_EXTENSIONS = {
