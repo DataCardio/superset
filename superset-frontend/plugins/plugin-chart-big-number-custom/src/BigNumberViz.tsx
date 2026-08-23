@@ -17,17 +17,17 @@
  * under the License.
  */
 import { useState, useEffect, useRef, MouseEvent } from 'react';
-import { t } from '@apache-superset/core/translation';
 import {
+  t,
   getNumberFormatter,
   getTimeFormatter,
   SMART_DATE_VERBOSE_ID,
   computeMaxFontSize,
   BRAND_COLOR,
+  styled,
   BinaryQueryObjectFilterClause,
+  useTheme,
 } from '@superset-ui/core';
-import styled from '@emotion/styled';
-import { useTheme } from '@emotion/react';
 import Echart from '../../plugin-chart-echarts/src/components/Echart';
 import { BigNumberVizProps } from './types';
 import { EventHandlers } from '../../plugin-chart-echarts/src/types';
@@ -291,7 +291,7 @@ function BigNumberVis({
     let fontSize = 0;
 
     const NO_DATA_OR_HASNT_LANDED = t(
-      'No data after filtering or data is NULL for the latest time record',
+      'There is currently no information to display.',
     );
     const NO_DATA = t(
       'Try applying different filters or ensuring your datasource has data',

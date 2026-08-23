@@ -20,14 +20,14 @@ import {
   extractTimegrain,
   getNumberFormatter,
   NumberFormats,
+  GenericDataType,
   getMetricLabel,
   getXAxisLabel,
   Metric,
   getValueFormatter,
+  t,
   tooltipHtml,
 } from '@superset-ui/core';
-import { GenericDataType } from '@apache-superset/core/common';
-import { t } from '@apache-superset/core/translation';
 import { EChartsCoreOption, graphic } from 'echarts/core';
 import { aggregationChoices } from '@superset-ui/chart-controls';
 import {
@@ -159,19 +159,33 @@ export default function transformProps(
   }
     // Trim sortedData according to selected year
   const yearFilter = (formData as any).extraFormData?.filters?.find(
-    (f: any) => f.col === 'year',
+  (f: any) => f.col === 'year',
+);
+
+if (yearFilter && yearFilter.val?.length > 0 && sortedData.length > 0) {
+  const selectedYear = Number(yearFilter.val[0]);
+
+  sortedData = sortedData.filter(
+    d => d[0] !== null && new Date(d[0]).getFullYear() <= selectedYear,
   );
-  if (yearFilter && yearFilter.val?.length > 0) {
-    const selectedYear = Number(yearFilter.val[0]);
-    sortedData = sortedData.filter(
-      d => d[0] !== null && new Date(d[0]).getFullYear() <= selectedYear,
-    );
+
+  const lastPointYear = sortedData.length > 0
+    ? new Date(sortedData[0][0]!).getFullYear()
+    : null;
+
+  if (lastPointYear !== selectedYear) {
+    sortedData = [];
+    data.length = 0;
+    bigNumber = null;
+    trendLineData = undefined;
+  } else {
     data.length = 0;
     data.push(...sortedData.map(([time, value]) => ({
       [xAxisLabel]: time,
       [metricName]: value,
     })));
   }
+}
   if (sortedData.length > 0) {
     timestamp = sortedData[0][0];
 

@@ -23,6 +23,7 @@ import {
   VizType,
 } from '@superset-ui/core';
 import BigNumberTrendlineCustomPlugin from '@superset-ui/plugin-chart-big-number-custom'; //Кастомный чарт Арины
+import BigNumberTrendlineCustomPlugin from '@superset-ui/plugin-chart-big-number-custom'; //Кастомный чарт Арины
 import CalendarChartPlugin from '@superset-ui/legacy-plugin-chart-calendar';
 import ChordChartPlugin from '@superset-ui/legacy-plugin-chart-chord';
 import CountryMapChartPlugin from '@superset-ui/legacy-plugin-chart-country-map';
@@ -51,6 +52,7 @@ import {
   EchartsAreaChartPlugin,
   EchartsTimeseriesChartPlugin,
   EchartsTimeseriesBarChartPlugin,
+  EchartsTimeseriesBarTresholdChartPlugin, // Кастомный чарт Арины
   EchartsTimeseriesLineChartPlugin,
   EchartsTimeseriesScatterChartPlugin,
   EchartsTimeseriesSmoothLineChartPlugin,
@@ -154,6 +156,9 @@ export default class MainPreset extends Preset {
         }),
         new EchartsTimeseriesBarChartPlugin().configure({
           key: VizType.Bar,
+        }),
+        new EchartsTimeseriesBarTresholdChartPlugin().configure({
+          key: VizType.BarTS,
         }),
         new EchartsTimeseriesLineChartPlugin().configure({
           key: VizType.Line,
