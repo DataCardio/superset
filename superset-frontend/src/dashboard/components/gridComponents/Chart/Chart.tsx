@@ -96,7 +96,7 @@ interface ChartProps {
   extraControls?: JsonObject;
   isInView?: boolean;
   cacheBusterProp?: string | number;
-  chartHolderRef?: React.RefObject<HTMLDivElement>;
+  chartHolderRef?: RefObject<HTMLDivElement>;
 }
 
 const RESIZE_TIMEOUT = 500;

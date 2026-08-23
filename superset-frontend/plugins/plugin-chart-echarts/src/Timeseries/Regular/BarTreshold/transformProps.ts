@@ -26,7 +26,6 @@ import {
   CurrencyFormatter,
   ensureIsArray,
   tooltipHtml,
-  GenericDataType,
   getCustomFormatter,
   getMetricLabel,
   getNumberFormatter,
@@ -37,10 +36,11 @@ import {
   isIntervalAnnotationLayer,
   isPhysicalColumn,
   isTimeseriesAnnotationLayer,
-  t,
   TimeseriesChartDataResponseResult,
   NumberFormats,
 } from '@superset-ui/core';
+import { t } from '@apache-superset/core/translation';
+import { GenericDataType } from '@apache-superset/core/common';
 import {
   extractExtraMetrics,
   getOriginalSeries,
@@ -58,7 +58,7 @@ import {
   OrientationType,
   TimeseriesChartTransformedProps,
 } from '../../types';
-import { DEFAULT_FORM_DATA } from './constants';
+import { DEFAULT_FORM_DATA } from '../../constants';
 import { ForecastSeriesEnum, ForecastValue, Refs } from '../../../types';
 import { parseAxisBound } from '../../../utils/controls';
 import {
@@ -85,7 +85,7 @@ import {
   rebaseForecastDatum,
   reorderForecastSeries,
 } from '../../../utils/forecast';
-import { convertInteger } from '../utils/convertInteger';
+import { convertInteger } from '../../../utils/convertInteger';
 import { defaultGrid, defaultYAxis } from '../../../defaults';
 import {
   getBaselineSeriesForStream,

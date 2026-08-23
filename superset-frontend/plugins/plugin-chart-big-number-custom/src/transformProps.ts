@@ -20,14 +20,14 @@ import {
   extractTimegrain,
   getNumberFormatter,
   NumberFormats,
-  GenericDataType,
   getMetricLabel,
   getXAxisLabel,
   Metric,
   getValueFormatter,
-  t,
   tooltipHtml,
 } from '@superset-ui/core';
+import { t } from '@apache-superset/core/translation';
+import { GenericDataType } from '@apache-superset/core/common';
 import { EChartsCoreOption, graphic } from 'echarts/core';
 import { aggregationChoices } from '@superset-ui/chart-controls';
 import {

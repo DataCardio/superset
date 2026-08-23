@@ -18,16 +18,15 @@
  */
 import { useState, useEffect, useRef, MouseEvent } from 'react';
 import {
-  t,
   getNumberFormatter,
   getTimeFormatter,
   SMART_DATE_VERBOSE_ID,
   computeMaxFontSize,
   BRAND_COLOR,
-  styled,
   BinaryQueryObjectFilterClause,
-  useTheme,
 } from '@superset-ui/core';
+import { t } from '@apache-superset/core/translation';
+import { useTheme, styled } from '@apache-superset/core/theme';
 import Echart from '../../plugin-chart-echarts/src/components/Echart';
 import { BigNumberVizProps } from './types';
 import { EventHandlers } from '../../plugin-chart-echarts/src/types';
