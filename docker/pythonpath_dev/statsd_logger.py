@@ -89,7 +89,7 @@ class StastDEventLogger(AbstractEventLogger):
                     s_logger.gauge(f'health.superset_DB', 200)
                 except Exception as e:
                     print("DB1 error",e)
-                    s_logger_db.gauge(f'health.superset_DB', 503)
+                    s_logger.gauge(f'health.superset_DB', 503)
                 finally:
                     db.close_connection()
 
@@ -97,15 +97,15 @@ class StastDEventLogger(AbstractEventLogger):
                     db.connect(dbname=dbname, host=host, user=user, password=password, port=port)
                     db.cursor.execute("select 1")
                     result = db.cursor.fetchone()
-                    s_logger_db.gauge(f'health.superset_DB_second', 200)
+                    s_logger.gauge(f'health.superset_DB_second', 200)
                 except Exception as e:
                     print("DB2 error", e)
-                    s_logger_db.gauge(f'health.superset_DB_second', 503)
+                    s_logger.gauge(f'health.superset_DB_second', 503)
                 finally:
                     db.close_connection()
                     time.sleep(60)
 
 
-        #thread = threading.Thread(target=db_healthcheck)
-        #thread.daemon = True
-        #thread.start()
+        thread = threading.Thread(target=db_healthcheck)
+        thread.daemon = True
+        thread.start()

@@ -20,7 +20,7 @@ x-common-build:
 x-superset-service:
   &superset-service
   build: *common-build
-  image: ghcr.io/datacardio/superset:${IMAGE_TAG:-latest}
+  image: superset-local:${IMAGE_TAG:-dev}
   user: "root"
   env_file:
     - path: docker/.env
