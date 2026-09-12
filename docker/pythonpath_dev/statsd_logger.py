@@ -5,6 +5,7 @@ from flask import g
 import threading
 import requests
 import time
+import os
 
 from superset.extensions import stats_logger_manager
 from superset.utils import json
@@ -14,7 +15,7 @@ from superset.utils.core import get_user_id, LoggerLevel, to_int
 from superset.stats_logger import StatsdStatsLogger
 from superset_security_manager import DBConnector
 
-s_logger = StatsdStatsLogger(host='host.docker.internal', port=8125, prefix='superset')
+s_logger = StatsdStatsLogger(host=os.environ.get("STATSD_HOST", "graphite"), port=int(os.environ.get("STATSD_HOST", "8125"), prefix=os.environ.get("STATD_PREFIX", "superset"),)
 
 class StastDEventLogger(AbstractEventLogger):
     """Event logger that commits logs to StatsD with background healthchecks."""
@@ -82,10 +83,10 @@ class StastDEventLogger(AbstractEventLogger):
             db = DBConnector()
             db.close_connection()
             second_db_params = {
-                "dbname": "depot_db",
-                "host": "192.168.1.56",
-                "user": "postgres",
-                "password": "admin",
+                "dbname": "regions_django",
+                "host": "172.17.3.166",
+                "user": "healthcheck",
+                "password": "123abcd456",
                 "port": "5432"
                 }
             while True:
