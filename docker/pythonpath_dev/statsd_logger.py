@@ -79,7 +79,7 @@ class StastDEventLogger(AbstractEventLogger):
             
 
     def healthcheck(self):
-        def db_healthcheck(self):
+        def db_healthcheck():
             db = DBConnector()
             db.close_connection()
             second_db_params = {
