@@ -15,7 +15,7 @@ from superset.utils.core import get_user_id, LoggerLevel, to_int
 from superset.stats_logger import StatsdStatsLogger
 from superset_security_manager import DBConnector
 
-s_logger = StatsdStatsLogger(host=os.environ.get("STATSD_HOST", "graphite"), port=int(os.environ.get("STATSD_HOST", "8125"), prefix=os.environ.get("STATD_PREFIX", "superset"),)
+s_logger = StatsdStatsLogger(host=os.environ.get("STATSD_HOST", "graphite"), port=int(os.environ.get("STATSD_HOST", "8125")), prefix=os.environ.get("STATD_PREFIX", "superset"),)
 
 class StastDEventLogger(AbstractEventLogger):
     """Event logger that commits logs to StatsD with background healthchecks."""
