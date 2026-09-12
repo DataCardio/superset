@@ -77,30 +77,37 @@ class StastDEventLogger(AbstractEventLogger):
                 print("StatsDEventLogger exception: ", ex)
             
 
-    def healthcheck(self): # В данный момент отключено
-        def db_healthcheck(dbname: str = "depot_db", host: str = "192.168.1.56", user: str = "postgres", password: str = "admin", port: str = "5432"): # Данные для подключения к второй базе
+    def healthcheck(self):
+        def db_healthcheck(self):
             db = DBConnector()
             db.close_connection()
+            second_db_params = {
+                "dbname": "depot_db",
+                "host": "192.168.1.56",
+                "user": "postgres",
+                "password": "admin",
+                "port": "5432"
+                }
             while True:
                 try:
                     db.connect()
                     db.cursor.execute("select 1")
                     result = db.cursor.fetchone()
-                    s_logger.gauge(f'health.superset_DB', 200)
+                    s_logger.gauge('health.superset_DB', 200)
                 except Exception as e:
                     print("DB1 error",e)
-                    s_logger.gauge(f'health.superset_DB', 503)
+                    s_logger.gauge('health.superset_DB', 503)
                 finally:
                     db.close_connection()
 
                 try:
-                    db.connect(dbname=dbname, host=host, user=user, password=password, port=port)
+                    db.connect(**second_db_params)
                     db.cursor.execute("select 1")
                     result = db.cursor.fetchone()
-                    s_logger.gauge(f'health.superset_DB_second', 200)
+                    s_logger.gauge('health.superset_DB_second', 200)
                 except Exception as e:
                     print("DB2 error", e)
-                    s_logger.gauge(f'health.superset_DB_second', 503)
+                    s_logger.gauge('health.superset_DB_second', 503)
                 finally:
                     db.close_connection()
                     time.sleep(60)

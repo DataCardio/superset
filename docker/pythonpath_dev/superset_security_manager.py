@@ -34,7 +34,7 @@ class DBConnector:
         self.connection.autocommit = True
         self.cursor = self.connection.cursor()
 
-    def connect(self):
+    def connect(self, dbname=None, host=None, user=None, password=None, port=None):
         """Пересоздаёт подключение к базе данных и обновляет курсор.
 
                 Полезен при потере соединения (например, после таймаута).
